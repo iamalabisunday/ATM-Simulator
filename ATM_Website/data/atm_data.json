@@ -1,0 +1,80 @@
+{
+  "admin_pin_hash": "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0",
+  "notes": {
+    "1000": 60,
+    "500": 40,
+    "200": 25,
+    "100": 50
+  },
+  "accounts": {
+    "1001": {
+      "account_class": "Savings",
+      "account_number": "1001",
+      "owner": "Ada Obi",
+      "pin_hash": "fe2592b42a727e977f055947385b709cc82b16b9a87f88c6abf3900d65d0cdc3",
+      "balance": 50000.0,
+      "transactions": [],
+      "failed_attempts": 0,
+      "is_blocked": false,
+      "daily_withdrawn": 0.0,
+      "last_withdrawal_date": "",
+      "per_tx_limit": 20000.0,
+      "daily_limit": 50000.0,
+      "min_balance": 1000.0,
+      "interest_rate": 0.03,
+      "monthly_withdrawal_limit": 4,
+      "monthly_withdrawals": 0,
+      "last_withdrawal_month": ""
+    },
+    "1002": {
+      "account_class": "Current",
+      "account_number": "1002",
+      "owner": "Chidi Eze",
+      "pin_hash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+      "balance": 25000.0,
+      "transactions": [],
+      "failed_attempts": 0,
+      "is_blocked": false,
+      "daily_withdrawn": 0.0,
+      "last_withdrawal_date": "",
+      "per_tx_limit": 20000.0,
+      "daily_limit": 50000.0,
+      "min_balance": 0.0,
+      "overdraft_limit": 10000.0
+    },
+    "1003": {
+      "account_class": "Savings",
+      "account_number": "1003",
+      "owner": "Zainab Bello",
+      "pin_hash": "f8638b979b2f4f793ddb6dbd197e0ee25a7a6ea32b0ae22f5e3c5d119d839e75",
+      "balance": 80000.0,
+      "transactions": [],
+      "failed_attempts": 0,
+      "is_blocked": false,
+      "daily_withdrawn": 0.0,
+      "last_withdrawal_date": "",
+      "per_tx_limit": 20000.0,
+      "daily_limit": 50000.0,
+      "min_balance": 1000.0,
+      "interest_rate": 0.03,
+      "monthly_withdrawal_limit": 4,
+      "monthly_withdrawals": 0,
+      "last_withdrawal_month": ""
+    },
+    "1004": {
+      "account_class": "Standard",
+      "account_number": "1004",
+      "owner": "Tunde Bakare",
+      "pin_hash": "a1fb4e703a9ef1fa4936801721ff285a97ac85330856674412e054892afe6972",
+      "balance": 15000.0,
+      "transactions": [],
+      "failed_attempts": 0,
+      "is_blocked": false,
+      "daily_withdrawn": 0.0,
+      "last_withdrawal_date": "",
+      "per_tx_limit": 20000.0,
+      "daily_limit": 50000.0,
+      "min_balance": 1000.0
+    }
+  }
+}

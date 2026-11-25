@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Group 7 Bank — Interactive ATM Simulator</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar no-print">
+    <div class="brand">
+      <div class="brand-logo">ATM</div>
+      <div>
+        <h1>Group 7 Bank — ATM Simulator</h1>
+        <p>Interactive Web Kiosk &bull; Python OOP Standard Library</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <div class="cash-pill" id="atmCashPill">ATM Cash: 90,000.00</div>
+      <div class="mode-switch">
+        <button id="btnCustomerMode" class="mode-btn active" type="button">Customer ATM</button>
+        <button id="btnAdminMode" class="mode-btn" type="button">Admin Mode</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <!-- LEFT / MAIN KIOSK PANEL -->
+    <section class="kiosk-panel no-print">
+      <div id="alertBanner" class="alert hidden" role="status"></div>
+
+      <!-- CUSTOMER VIEW -->
+      <div id="customerView">
+        <!-- LOGIN SCREEN -->
+        <div id="loginScreen" class="card">
+          <div class="card-head">
+            <h2>Insert Card &amp; Enter PIN</h2>
+            <span class="tag">3 wrong PIN attempts locks account</span>
+          </div>
+
+          <div class="login-grid">
+            <form id="loginForm" class="login-form">
+              <label for="loginAccount">Account Number</label>
+              <input id="loginAccount" type="text" inputmode="numeric" placeholder="e.g. 1001" autocomplete="off" required>
+
+              <label for="loginPin">4-Digit PIN</label>
+              <input id="loginPin" type="password" inputmode="numeric" maxlength="4" placeholder="e.g. 4321" autocomplete="off" required>
+
+              <button type="submit" class="btn btn-primary btn-full">Login to ATM</button>
+            </form>
+
+            <div class="keypad-wrap">
+              <div class="keypad-label">On-Screen ATM Keypad</div>
+              <div class="keypad" id="atmKeypad">
+                <button type="button" data-key="1">1</button>
+                <button type="button" data-key="2">2</button>
+                <button type="button" data-key="3">3</button>
+                <button type="button" data-key="4">4</button>
+                <button type="button" data-key="5">5</button>
+                <button type="button" data-key="6">6</button>
+                <button type="button" data-key="7">7</button>
+                <button type="button" data-key="8">8</button>
+                <button type="button" data-key="9">9</button>
+                <button type="button" data-key="CLR" class="key-fn">CLR</button>
+                <button type="button" data-key="0">0</button>
+                <button type="button" data-key="DEL" class="key-fn">&larr;</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo-accounts">
+            <div class="demo-title">Quick Demo Accounts (Click to autofill):</div>
+            <div class="demo-chips">
+              <button type="button" class="demo-chip" data-acc="1001" data-pin="4321">
+                <strong>1001</strong> Ada Obi <span>Savings &bull; PIN 4321</span>
+              </button>
+              <button type="button" class="demo-chip" data-acc="1002" data-pin="1234">
+                <strong>1002</strong> Chidi Eze <span>Current &bull; PIN 1234</span>
+              </button>
+              <button type="button" class="demo-chip" data-acc="1003" data-pin="5678">
+                <strong>1003</strong> Zainab Bello <span>Savings &bull; PIN 5678</span>
+              </button>
+              <button type="button" class="demo-chip" data-acc="1004" data-pin="2468">
+                <strong>1004</strong> Tunde Bakare <span>Standard &bull; PIN 2468</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOGGED-IN ATM DASHBOARD -->
+        <div id="dashboardScreen" class="hidden">
+          <div class="card account-hero">
+            <div>
+              <div class="welcome-row">
+                <h2 id="welcomeTitle">Welcome, Ada Obi.</h2>
+                <span id="accountTypeBadge" class="type-badge">Savings</span>
+              </div>
+              <p class="acc-meta" id="accountMeta">Account No: 1001</p>
+            </div>
+            <div class="balance-box">
+              <span class="balance-label">Available Balance</span>
+              <span class="balance-value" id="balanceValue">50,000.00</span>
+            </div>
+            <button id="btnLogout" type="button" class="btn btn-danger">Eject Card / Logout</button>
+          </div>
+
+          <div class="limits-strip card">
+            <div class="limit-item">
+              <span>Per-Tx Limit</span>
+              <strong id="perTxLimit">20,000.00</strong>
+            </div>
+            <div class="limit-item">
+              <span>Daily Used / Limit</span>
+              <strong id="dailyLimitInfo">0.00 / 50,000.00</strong>
+            </div>
+            <div class="limit-item">
+              <span id="extraRuleLabel">Monthly Withdrawals</span>
+              <strong id="extraRuleValue">0 / 4</strong>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="tabs" role="tablist">
+              <button type="button" class="tab active" data-tab="withdraw">Withdraw</button>
+              <button type="button" class="tab" data-tab="deposit">Deposit</button>
+              <button type="button" class="tab" data-tab="transfer">Transfer</button>
+              <button type="button" class="tab" data-tab="statement">Mini-Statement</button>
+              <button type="button" class="tab" data-tab="security">PIN &amp; Interest</button>
+            </div>
+
+            <!-- WITHDRAW TAB -->
+            <div id="tab-withdraw" class="tab-panel active">
+              <p class="panel-hint">Select a quick amount or enter any multiple of available notes (100, 200, 500, 1,000).</p>
+              <div class="quick-amounts">
+                <button type="button" class="amt-btn" data-amt="1000">1,000</button>
+                <button type="button" class="amt-btn" data-amt="2000">2,000</button>
+                <button type="button" class="amt-btn" data-amt="5000">5,000</button>
+                <button type="button" class="amt-btn" data-amt="10000">10,000</button>
+                <button type="button" class="amt-btn" data-amt="20000">20,000</button>
+              </div>
+              <form id="withdrawForm" class="inline-form">
+                <input id="withdrawAmount" type="number" step="1" min="1" placeholder="Enter withdrawal amount (e.g. 5000)" required>
+                <button type="submit" class="btn btn-primary">Withdraw Cash</button>
+              </form>
+            </div>
+
+            <!-- DEPOSIT TAB -->
+            <div id="tab-deposit" class="tab-panel">
+              <p class="panel-hint">Deposit funds directly into your account.</p>
+              <form id="depositForm" class="inline-form">
+                <input id="depositAmount" type="number" step="0.01" min="1" placeholder="Enter deposit amount" required>
+                <button type="submit" class="btn btn-primary">Deposit Funds</button>
+              </form>
+            </div>
+
+            <!-- TRANSFER TAB -->
+            <div id="tab-transfer" class="tab-panel">
+              <p class="panel-hint">Send money instantly to another registered account.</p>
+              <form id="transferForm" class="stack-form">
+                <div class="form-row">
+                  <div>
+                    <label for="transferTarget">Recipient Account Number</label>
+                    <input id="transferTarget" type="text" placeholder="e.g. 1002" required>
+                  </div>
+                  <div>
+                    <label for="transferPick">Or Pick Existing Account</label>
+                    <select id="transferPick">
+                      <option value="">-- Select recipient --</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="inline-form">
+                  <input id="transferAmount" type="number" step="0.01" min="1" placeholder="Amount to transfer" required>
+                  <button type="submit" class="btn btn-primary">Send Transfer</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- MINI-STATEMENT TAB -->
+            <div id="tab-statement" class="tab-panel">
+              <div class="statement-head">
+                <h3>Last 5 Transactions</h3>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date/Time</th>
+                      <th>Type</th>
+                      <th class="num">Amount</th>
+                      <th class="num">Balance After</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody id="statementBody">
+                    <tr><td colspan="5" class="empty-cell">No transactions yet.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- SECURITY & INTEREST TAB -->
+            <div id="tab-security" class="tab-panel">
+              <div class="security-grid">
+                <form id="changePinForm" class="stack-form">
+                  <h3>Change Account PIN</h3>
+                  <label for="oldPin">Current PIN</label>
+                  <input id="oldPin" type="password" maxlength="4" placeholder="Current 4-digit PIN" required>
+                  <label for="newPin">New 4-Digit PIN</label>
+                  <input id="newPin" type="password" maxlength="4" placeholder="New 4-digit PIN" required>
+                  <button type="submit" class="btn btn-primary">Update PIN</button>
+                </form>
+
+                <div class="interest-box">
+                  <h3>Savings Interest</h3>
+                  <p id="interestDesc">Savings accounts earn 3.0% interest on positive balances.</p>
+                  <button id="btnApplyInterest" type="button" class="btn btn-secondary">Credit Interest Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN VIEW -->
+      <div id="adminView" class="hidden">
+        <div id="adminLoginCard" class="card">
+          <div class="card-head">
+            <h2>Admin Mode Authentication</h2>
+            <span class="tag">Default Admin PIN: 0000</span>
+          </div>
+          <form id="adminLoginForm" class="inline-form">
+            <input id="adminPinInput" type="password" maxlength="8" placeholder="Enter Admin PIN (0000)" required>
+            <button type="submit" class="btn btn-primary">Unlock Admin Console</button>
+          </form>
+        </div>
+
+        <div id="adminDashboard" class="hidden">
+          <div class="card admin-head">
+            <div>
+              <h2>Admin Console</h2>
+              <p>Manage accounts, unblock users, restock ATM notes, and inspect statistics.</p>
+            </div>
+            <button id="btnAdminLogout" type="button" class="btn btn-danger">Exit Admin Mode</button>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card"><span>Accounts</span><strong id="kpiAccounts">0</strong></div>
+            <div class="kpi-card"><span>Blocked</span><strong id="kpiBlocked">0</strong></div>
+            <div class="kpi-card"><span>ATM Cash Left</span><strong id="kpiCash">0.00</strong></div>
+            <div class="kpi-card"><span>Total Transactions</span><strong id="kpiTx">0</strong></div>
+          </div>
+
+          <div class="card">
+            <h3>Registered Accounts</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Acc No</th>
+                    <th>Owner</th>
+                    <th>Type</th>
+                    <th class="num">Balance</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="adminAccountsBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="admin-forms-grid">
+            <form id="createAccountForm" class="card stack-form">
+              <h3>Create New Account</h3>
+              <label for="newAccNum">Account Number</label>
+              <input id="newAccNum" type="text" placeholder="e.g. 1005" required>
+              <label for="newAccOwner">Owner Name</label>
+              <input id="newAccOwner" type="text" placeholder="e.g. Ngozi Nnamdi" required>
+              <div class="form-row">
+                <div>
+                  <label for="newAccPin">4-Digit PIN</label>
+                  <input id="newAccPin" type="password" maxlength="4" placeholder="7777" required>
+                </div>
+                <div>
+                  <label for="newAccType">Account Type</label>
+                  <select id="newAccType">
+                    <option value="Savings">Savings</option>
+                    <option value="Current">Current</option>
+                    <option value="Standard">Standard</option>
+                  </select>
+                </div>
+              </div>
+              <label for="newAccBal">Initial Deposit</label>
+              <input id="newAccBal" type="number" step="0.01" min="0" placeholder="10000" required>
+              <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+
+            <div class="stack-col">
+              <form id="restockForm" class="card stack-form">
+                <h3>ATM Note Inventory &amp; Restock</h3>
+                <div id="notesInventory" class="notes-grid"></div>
+                <div class="form-row">
+                  <div>
+                    <label for="restockDenom">Denomination</label>
+                    <select id="restockDenom">
+                      <option value="1000">1,000</option>
+                      <option value="500">500</option>
+                      <option value="200">200</option>
+                      <option value="100">100</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="restockCount">Notes to Add</label>
+                    <input id="restockCount" type="number" min="1" placeholder="10" required>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-secondary">Restock ATM</button>
+              </form>
+
+              <div class="card">
+                <h3>ATM Statistics</h3>
+                <div id="statsContent" class="stats-list">No transactions yet.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: CASH TRAY & PRINTABLE RECEIPT SLIP -->
+    <aside class="slip-panel">
+      <div class="card cash-tray no-print">
+        <h3>Cash Dispenser Tray</h3>
+        <div id="dispensedNotesBox" class="dispensed-box empty">
+          Withdraw cash to see exact dispensed notes here.
+        </div>
+      </div>
+
+      <div class="card receipt-card">
+        <div class="receipt-card-head no-print">
+          <h3>ATM Receipt Slip</h3>
+          <button id="btnPrintSlip" type="button" class="btn btn-small">Print / Save PDF</button>
+        </div>
+        <pre id="receiptPreview" class="receipt-paper">==========================================
+           PYTHON ATM RECEIPT
+==========================================
+Status:         Ready
+Message:        Log in and perform any
+                transaction to generate a
+                timestamped slip.
+==========================================</pre>
+        <div id="receiptPathNote" class="receipt-path no-print"></div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
