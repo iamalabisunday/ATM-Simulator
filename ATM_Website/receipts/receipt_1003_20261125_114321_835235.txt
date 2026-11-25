@@ -1,0 +1,10 @@
+==========================================
+           PYTHON ATM RECEIPT
+==========================================
+Date/Time:      2026-11-25 11:43:21
+Account No:     1003 (Savings)
+Account Holder: Zainab Bello
+Transaction:    Interest Credit
+Amount:         2,400.00
+New Balance:    82,400.00
+==========================================

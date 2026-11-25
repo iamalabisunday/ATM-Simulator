@@ -1,11 +1,11 @@
 ==========================================
            PYTHON ATM RECEIPT
 ==========================================
-Date/Time:      2026-11-25 05:27:36
+Date/Time:      2026-11-25 11:37:25
 Account No:     1001 (Savings)
 Account Holder: Ada Obi
-Transaction:    Withdrawal
-Amount:         10,000.00
-New Balance:    50,000.00
-Notes dispensed: 10 x 1,000
+Transaction:    Transfer
+Amount:         20,000.00
+New Balance:    60,000.00
+Recipient:      1004 (Tunde Bakare)
 ==========================================

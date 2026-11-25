@@ -254,7 +254,7 @@ def handle_admin_session(atm: ATM) -> None:
 def run_atm(atm: ATM) -> None:
     """Run the main ATM CLI loop."""
     print("========================================")
-    print("       WELCOME TO PYTHON ATM (OOP)")
+    print("       WELCOME TO PYTHON ATM")
     print("========================================")
     if atm.startup_message:
         print(f"[Notice] {atm.startup_message}")

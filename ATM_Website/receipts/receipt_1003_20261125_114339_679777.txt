@@ -1,10 +1,10 @@
 ==========================================
            PYTHON ATM RECEIPT
 ==========================================
-Date/Time:      2026-11-25 05:34:06
-Account No:     1001 (Savings)
-Account Holder: Ada Obi
+Date/Time:      2026-11-25 11:43:39
+Account No:     1003 (Savings)
+Account Holder: Zainab Bello
 Transaction:    Interest Credit
-Amount:         16,044.00
-New Balance:    550,844.00
+Amount:         2,782.26
+New Balance:    95,524.18
 ==========================================
